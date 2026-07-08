@@ -1,59 +1,120 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# HOBS CRM — Frontend
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+A modern, responsive Customer Relationship Management (CRM) web application built with **Next.js 15**, **TypeScript**, and **Tailwind CSS**. This is the client-side application of the HOBS CRM platform, delivering a fast and intuitive user experience.
+
+<p>
+  <img src="https://img.shields.io/badge/Next.js-15-000000?style=flat-square&logo=next.js&logoColor=white" alt="Next.js 15">
+  <img src="https://img.shields.io/badge/TypeScript-5.x-3178C6?style=flat-square&logo=typescript&logoColor=white" alt="TypeScript">
+  <img src="https://img.shields.io/badge/Tailwind_CSS-3.x-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white" alt="Tailwind CSS">
+  <img src="https://img.shields.io/badge/shadcn%2Fui-Components-000000?style=flat-square" alt="shadcn/ui">
+  <img src="https://img.shields.io/badge/Status-In%20Development-yellow?style=flat-square" alt="Status">
 </p>
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 📋 Overview
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+HOBS CRM Frontend is a Single Page Application (SPA) that communicates with the [Laravel 12 backend API](https://github.com/Hobsinnovation/crm_backend). It provides dashboards and management interfaces for clients, leads, domains, invoices, and system administration.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## ✨ Features
 
-## Learning Laravel
+- **Modern UI/UX** — Clean, accessible interface built with shadcn/ui components
+- **Type Safety** — Fully typed codebase with TypeScript
+- **Responsive Design** — Mobile-first layouts powered by Tailwind CSS
+- **App Router** — Next.js 15 App Router with server and client components
+- **API Integration** — Centralized API client layer for backend communication
+- **Authentication** — Secure token-based login flow *(Phase 2)*
+- **Role-Based Views** — UI adapts to user roles and permissions *(Phase 2)*
+- **Admin Dashboard** — Analytics, user management, and system controls *(Phase 2)*
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+## 🛠️ Tech Stack
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+| Layer | Technology |
+|-------|-----------|
+| Framework | Next.js 15 (App Router) |
+| Language | TypeScript 5.x |
+| Styling | Tailwind CSS |
+| UI Components | shadcn/ui |
+| HTTP Client | Fetch API (custom client layer) |
+| Backend API | Laravel 12 + Sanctum |
 
-## Laravel Sponsors
+## 🚀 Getting Started
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### Prerequisites
 
-### Premium Partners
+- Node.js >= 18.18
+- npm >= 9.x (or yarn / pnpm)
+- Running instance of the [backend API](https://github.com/Hobsinnovation/crm_backend)
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+### Installation
 
-## Contributing
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/Hobsinnovation/crm_frontend.git
+   cd crm_frontend
+   ```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
 
-## Code of Conduct
+3. **Configure environment**
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+   Create a `.env.local` file in the project root:
+   ```env
+   NEXT_PUBLIC_API_URL=http://localhost:8000/api
+   ```
 
-## Security Vulnerabilities
+4. **Start the development server**
+   ```bash
+   npm run dev
+   ```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+   The application will be available at `http://localhost:3000`
 
-## License
+## 📁 Project Structure
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```
+crm_frontend/
+├── src/
+│   ├── app/           # Next.js App Router pages & layouts
+│   ├── components/    # Reusable UI components
+│   ├── hooks/         # Custom React hooks
+│   ├── lib/           # Utilities & API client
+│   ├── services/      # API service functions
+│   └── styles/        # Global styles
+├── public/            # Static assets
+├── .env.local         # Environment variables (not committed)
+├── tailwind.config.ts # Tailwind configuration
+└── tsconfig.json      # TypeScript configuration
+```
+
+## 📜 Available Scripts
+
+```bash
+npm run dev      # Start development server (http://localhost:3000)
+npm run build    # Create optimized production build
+npm run start    # Run production server
+npm run lint     # Run ESLint checks
+```
+
+## 🧭 Roadmap
+
+- [x] **Phase 1** — Project scaffolding, TypeScript, Tailwind & shadcn/ui setup, API client layer
+- [ ] **Phase 2** — Authentication pages (login/register), protected routes, admin dashboard
+- [ ] **Phase 3** — Client, lead, and domain management interfaces
+- [ ] **Phase 4** — Invoicing UI, notifications center, and activity logs
+- [ ] **Phase 5** — Performance optimization, testing, and deployment
+
+## 🤝 Related Repositories
+
+- **Backend:** [crm_backend](https://github.com/Hobsinnovation/crm_backend) — Laravel 12 REST API
+
+## 📄 License
+
+This project is proprietary software developed by **Hobs Innovation**. All rights reserved.
+
+---
+
+<p align="center">Built with ❤️ by <a href="https://github.com/Hobsinnovation">Hobs Innovation</a></p>
