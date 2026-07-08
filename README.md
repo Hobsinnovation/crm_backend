@@ -1,12 +1,11 @@
-# HOBS CRM — Frontend
+# HOBS CRM — Backend API
 
-A modern, responsive Customer Relationship Management (CRM) web application built with **Next.js 15**, **TypeScript**, and **Tailwind CSS**. This is the client-side application of the HOBS CRM platform, delivering a fast and intuitive user experience.
+A modern, scalable Customer Relationship Management (CRM) system backend built with **Laravel 12**. This RESTful API powers the HOBS CRM platform, providing robust client management, lead tracking, domain monitoring, invoicing, and role-based access control.
 
 <p>
-  <img src="https://img.shields.io/badge/Next.js-15-000000?style=flat-square&logo=next.js&logoColor=white" alt="Next.js 15">
-  <img src="https://img.shields.io/badge/TypeScript-5.x-3178C6?style=flat-square&logo=typescript&logoColor=white" alt="TypeScript">
-  <img src="https://img.shields.io/badge/Tailwind_CSS-3.x-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white" alt="Tailwind CSS">
-  <img src="https://img.shields.io/badge/shadcn%2Fui-Components-000000?style=flat-square" alt="shadcn/ui">
+  <img src="https://img.shields.io/badge/Laravel-12.x-FF2D20?style=flat-square&logo=laravel&logoColor=white" alt="Laravel 12">
+  <img src="https://img.shields.io/badge/PHP-8.2+-777BB4?style=flat-square&logo=php&logoColor=white" alt="PHP 8.2+">
+  <img src="https://img.shields.io/badge/MySQL-8.0-4479A1?style=flat-square&logo=mysql&logoColor=white" alt="MySQL 8.0">
   <img src="https://img.shields.io/badge/Status-In%20Development-yellow?style=flat-square" alt="Status">
 </p>
 
@@ -14,102 +13,150 @@ A modern, responsive Customer Relationship Management (CRM) web application buil
 
 ## 📋 Overview
 
-HOBS CRM Frontend is a Single Page Application (SPA) that communicates with the [Laravel 12 backend API](https://github.com/Hobsinnovation/crm_backend). It provides dashboards and management interfaces for clients, leads, domains, invoices, and system administration.
+HOBS CRM Backend is the server-side application of a full-stack CRM solution. It exposes a comprehensive REST API consumed by the [Next.js frontend](https://github.com/Hobsinnovation/crm_frontend) and handles all business logic, data persistence, authentication, and authorization.
 
 ## ✨ Features
 
-- **Modern UI/UX** — Clean, accessible interface built with shadcn/ui components
-- **Type Safety** — Fully typed codebase with TypeScript
-- **Responsive Design** — Mobile-first layouts powered by Tailwind CSS
-- **App Router** — Next.js 15 App Router with server and client components
-- **API Integration** — Centralized API client layer for backend communication
-- **Authentication** — Secure token-based login flow *(Phase 2)*
-- **Role-Based Views** — UI adapts to user roles and permissions *(Phase 2)*
-- **Admin Dashboard** — Analytics, user management, and system controls *(Phase 2)*
+- **User Management** — Complete user lifecycle with account activation controls
+- **Role-Based Access Control (RBAC)** — Granular roles and permissions system with module-level actions
+- **Client Management** — Store and manage client profiles, companies, and contact details
+- **Lead Tracking** — Capture leads with source attribution, status pipeline, and team assignment
+- **Domain Monitoring** — Track domain registrations, expiry dates, and auto-renewal status
+- **Invoicing** — Generate and manage invoices with status tracking and due dates
+- **Notifications** — In-app notification system with read/unread states
+- **Activity Logging** — Full audit trail of user actions and model changes
+- **API Authentication** — Secure token-based auth via Laravel Sanctum *(Phase 2)*
 
 ## 🛠️ Tech Stack
 
 | Layer | Technology |
 |-------|-----------|
-| Framework | Next.js 15 (App Router) |
-| Language | TypeScript 5.x |
-| Styling | Tailwind CSS |
-| UI Components | shadcn/ui |
-| HTTP Client | Fetch API (custom client layer) |
-| Backend API | Laravel 12 + Sanctum |
+| Framework | Laravel 12 |
+| Language | PHP 8.2+ |
+| Database | MySQL 8.0 |
+| Authentication | Laravel Sanctum |
+| Architecture | Service–Repository Pattern |
+| API Style | RESTful JSON |
+
+## 🗄️ Database Schema
+
+The system uses 10 core tables:
+
+| Table | Purpose |
+|-------|---------|
+| `users` | User accounts with roles and activation status |
+| `roles` | System roles with priority levels |
+| `permissions` | Module-based permission definitions |
+| `role_permission` | Role–permission pivot mapping |
+| `clients` | Client profiles and company information |
+| `leads` | Sales leads with pipeline status |
+| `domains` | Domain registrations and expiry tracking |
+| `invoices` | Billing and invoice management |
+| `notifications` | User notification queue |
+| `activity_logs` | System-wide audit trail |
+
+All tables include timestamps, and soft deletes are enabled where appropriate.
 
 ## 🚀 Getting Started
 
 ### Prerequisites
 
-- Node.js >= 18.18
-- npm >= 9.x (or yarn / pnpm)
-- Running instance of the [backend API](https://github.com/Hobsinnovation/crm_backend)
+- PHP >= 8.2
+- Composer >= 2.x
+- MySQL >= 8.0
+- Node.js (for asset compilation, if needed)
 
 ### Installation
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/Hobsinnovation/crm_frontend.git
-   cd crm_frontend
+   git clone https://github.com/Hobsinnovation/crm_backend.git
+   cd crm_backend
    ```
 
 2. **Install dependencies**
    ```bash
-   npm install
+   composer install
    ```
 
 3. **Configure environment**
-
-   Create a `.env.local` file in the project root:
-   ```env
-   NEXT_PUBLIC_API_URL=http://localhost:8000/api
-   ```
-
-4. **Start the development server**
    ```bash
-   npm run dev
+   cp .env.example .env
+   php artisan key:generate
    ```
 
-   The application will be available at `http://localhost:3000`
+4. **Set up the database**
+
+   Update your `.env` file with database credentials:
+   ```env
+   DB_CONNECTION=mysql
+   DB_HOST=127.0.0.1
+   DB_PORT=3306
+   DB_DATABASE=hafiz_crm
+   DB_USERNAME=root
+   DB_PASSWORD=
+   ```
+
+5. **Run migrations**
+   ```bash
+   php artisan migrate
+   ```
+
+6. **Start the development server**
+   ```bash
+   php artisan serve
+   ```
+
+   The API will be available at `http://localhost:8000`
+
+### Frontend Connection
+
+Set the frontend URL in `.env` for CORS configuration:
+
+```env
+FRONTEND_URL=http://localhost:3000
+```
 
 ## 📁 Project Structure
 
 ```
-crm_frontend/
-├── src/
-│   ├── app/           # Next.js App Router pages & layouts
-│   ├── components/    # Reusable UI components
-│   ├── hooks/         # Custom React hooks
-│   ├── lib/           # Utilities & API client
-│   ├── services/      # API service functions
-│   └── styles/        # Global styles
-├── public/            # Static assets
-├── .env.local         # Environment variables (not committed)
-├── tailwind.config.ts # Tailwind configuration
-└── tsconfig.json      # TypeScript configuration
-```
-
-## 📜 Available Scripts
-
-```bash
-npm run dev      # Start development server (http://localhost:3000)
-npm run build    # Create optimized production build
-npm run start    # Run production server
-npm run lint     # Run ESLint checks
+crm_backend/
+├── app/
+│   ├── Models/            # Eloquent models
+│   ├── Http/Controllers/  # API controllers
+│   ├── Services/          # Business logic layer
+│   ├── Repositories/      # Data access layer
+│   └── Policies/          # Authorization policies
+├── database/
+│   ├── migrations/        # Database schema definitions
+│   ├── seeders/           # Sample/default data
+│   └── factories/         # Model factories for testing
+├── routes/
+│   ├── api.php            # API route definitions
+│   └── web.php            # Web routes
+└── tests/                 # Feature & unit tests
 ```
 
 ## 🧭 Roadmap
 
-- [x] **Phase 1** — Project scaffolding, TypeScript, Tailwind & shadcn/ui setup, API client layer
-- [ ] **Phase 2** — Authentication pages (login/register), protected routes, admin dashboard
-- [ ] **Phase 3** — Client, lead, and domain management interfaces
-- [ ] **Phase 4** — Invoicing UI, notifications center, and activity logs
-- [ ] **Phase 5** — Performance optimization, testing, and deployment
+- [x] **Phase 1** — Architecture, database design, project scaffolding
+- [ ] **Phase 2** — Authentication (Sanctum), roles & permissions, admin dashboard APIs
+- [ ] **Phase 3** — Client, lead, and domain management modules
+- [ ] **Phase 4** — Invoicing, notifications, and activity logs
+- [ ] **Phase 5** — Testing, optimization, and deployment
+
+## 🔧 Useful Commands
+
+```bash
+php artisan migrate:status    # Check migration status
+php artisan migrate:fresh     # Rebuild database from scratch
+php artisan route:list        # List all registered routes
+php artisan test              # Run the test suite
+```
 
 ## 🤝 Related Repositories
 
-- **Backend:** [crm_backend](https://github.com/Hobsinnovation/crm_backend) — Laravel 12 REST API
+- **Frontend:** [crm_frontend](https://github.com/Hobsinnovation/crm_frontend) — Next.js 15 client application
 
 ## 📄 License
 
