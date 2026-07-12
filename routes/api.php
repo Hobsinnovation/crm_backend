@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\DashboardController;
+use App\Http\Controllers\Api\LeadController;
 
 // Public routes
 Route::post('/register', [AuthController::class, 'register']);
@@ -33,7 +34,17 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::middleware('permission:clients.create')->post('/clients', [ClientController::class, 'store']);
     Route::middleware('permission:clients.update')->put('/clients/{client}', [ClientController::class, 'update']);
     Route::middleware('permission:clients.delete')->delete('/clients/{client}', [ClientController::class, 'destroy']);
-    
+     
+    // Leads management
+    Route::middleware('permission:leads.view')->get('/leads', [LeadController::class, 'index']);
+    Route::middleware('permission:leads.view')->get('/leads/assignable-users', [LeadController::class, 'assignableUsers']);
+    Route::middleware('permission:leads.view')->get('/leads/{lead}', [LeadController::class, 'show']);
+    Route::middleware('permission:leads.create')->post('/leads', [LeadController::class, 'store']);
+    Route::middleware('permission:leads.update')->put('/leads/{lead}', [LeadController::class, 'update']);
+    Route::middleware('permission:leads.assign')->patch('/leads/{lead}/assign', [LeadController::class, 'assign']);
+    Route::middleware('permission:clients.create')->post('/leads/{lead}/convert', [LeadController::class, 'convert']);
+    Route::middleware('permission:leads.delete')->delete('/leads/{lead}', [LeadController::class, 'destroy']);
+
      // Dashboard stats
     Route::get('/dashboard/stats', [DashboardController::class, 'stats']);
 
