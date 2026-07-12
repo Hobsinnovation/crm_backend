@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\ClientController;
 use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\DashboardController;
 
 // Public routes
 Route::post('/register', [AuthController::class, 'register']);
@@ -32,4 +33,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::middleware('permission:clients.create')->post('/clients', [ClientController::class, 'store']);
     Route::middleware('permission:clients.update')->put('/clients/{client}', [ClientController::class, 'update']);
     Route::middleware('permission:clients.delete')->delete('/clients/{client}', [ClientController::class, 'destroy']);
-});
+    
+     // Dashboard stats
+    Route::get('/dashboard/stats', [DashboardController::class, 'stats']);
+
+
+    });
