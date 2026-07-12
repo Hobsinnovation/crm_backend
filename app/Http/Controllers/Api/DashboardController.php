@@ -65,6 +65,11 @@ class DashboardController extends Controller
         if ($user->hasPermission('domains.view')) {
             $stats['domains'] = [
                 'total' => DB::table('domains')->whereNull('deleted_at')->count(),
+                'expiring_soon' => DB::table('domains')
+                    ->whereNull('deleted_at')
+                    ->whereNotNull('expiry_date')
+                    ->whereBetween('expiry_date', [now(), now()->addDays(30)])
+                    ->count(),
             ];
         }
 

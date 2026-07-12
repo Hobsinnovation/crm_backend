@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\DashboardController;
 use App\Http\Controllers\Api\LeadController;
+use App\Http\Controllers\Api\DomainController;
 
 // Public routes
 Route::post('/register', [AuthController::class, 'register']);
@@ -44,6 +45,17 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::middleware('permission:leads.assign')->patch('/leads/{lead}/assign', [LeadController::class, 'assign']);
     Route::middleware('permission:clients.create')->post('/leads/{lead}/convert', [LeadController::class, 'convert']);
     Route::middleware('permission:leads.delete')->delete('/leads/{lead}', [LeadController::class, 'destroy']);
+    
+    // Domains management
+    Route::middleware('permission:domains.view')->get('/domains', [DomainController::class, 'index']);
+    Route::middleware('permission:domains.view')->get('/domains/clients-list', [DomainController::class, 'clientsList']);
+    Route::middleware('permission:domains.view')->get('/domains/{domain}', [DomainController::class, 'show']);
+    Route::middleware('permission:domains.create')->post('/domains', [DomainController::class, 'store']);
+    Route::middleware('permission:domains.update')->put('/domains/{domain}', [DomainController::class, 'update']);
+    Route::middleware('permission:domains.update')->patch('/domains/{domain}/toggle-renewal', [DomainController::class, 'toggleAutoRenewal']);
+    Route::middleware('permission:domains.delete')->delete('/domains/{domain}', [DomainController::class, 'destroy']);
+
+
 
      // Dashboard stats
     Route::get('/dashboard/stats', [DashboardController::class, 'stats']);
