@@ -30,13 +30,27 @@ class Client extends Model
         ];
     }
 
+    /**
+     * Client was created by a user (staff member).
+     */
     public function creator()
     {
         return $this->belongsTo(User::class, 'created_by');
     }
 
+    /**
+     * Client is assigned to a user (staff member).
+     */
     public function assignee()
     {
         return $this->belongsTo(User::class, 'assigned_to');
+    }
+
+    /**
+     * A client can have multiple invoices.
+     */
+    public function invoices()
+    {
+        return $this->hasMany(Invoice::class);
     }
 }

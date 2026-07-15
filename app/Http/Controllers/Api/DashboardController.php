@@ -76,7 +76,18 @@ class DashboardController extends Controller
         // Invoices stats
         if ($user->hasPermission('invoices.view')) {
             $stats['invoices'] = [
-                'total' => DB::table('invoices')->whereNull('deleted_at')->count(),
+                'total'   => DB::table('invoices')->whereNull('deleted_at')->count(),
+                'paid'    => DB::table('invoices')->whereNull('deleted_at')->where('status', 'paid')->count(),
+                'overdue' => DB::table('invoices')->whereNull('deleted_at')
+                    ->whereNotNull('due_date')
+                    ->where('due_date', '<', now())
+                    ->whereNotIn('status', ['paid', 'cancelled'])
+                    ->count(),
+                'revenue' => (float) DB::table('invoices')->whereNull('deleted_at')
+                    ->where('status', 'paid')->sum('total'),
+                'pending' => (float) DB::table('invoices')->whereNull('deleted_at')
+                    ->whereNotIn('status', ['paid', 'cancelled'])
+                    ->sum('total'),
             ];
         }
 

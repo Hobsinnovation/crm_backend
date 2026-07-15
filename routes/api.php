@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\DashboardController;
 use App\Http\Controllers\Api\LeadController;
 use App\Http\Controllers\Api\DomainController;
+use App\Http\Controllers\Api\InvoiceController;
 
 // Public routes
 Route::post('/register', [AuthController::class, 'register']);
@@ -36,6 +37,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::middleware('permission:clients.update')->put('/clients/{client}', [ClientController::class, 'update']);
     Route::middleware('permission:clients.delete')->delete('/clients/{client}', [ClientController::class, 'destroy']);
      
+
+    
     // Leads management
     Route::middleware('permission:leads.view')->get('/leads', [LeadController::class, 'index']);
     Route::middleware('permission:leads.view')->get('/leads/assignable-users', [LeadController::class, 'assignableUsers']);
@@ -55,7 +58,14 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::middleware('permission:domains.update')->patch('/domains/{domain}/toggle-renewal', [DomainController::class, 'toggleAutoRenewal']);
     Route::middleware('permission:domains.delete')->delete('/domains/{domain}', [DomainController::class, 'destroy']);
 
-
+    // Invoices management
+    Route::middleware('permission:invoices.view')->get('/invoices', [InvoiceController::class, 'index']);
+    Route::middleware('permission:invoices.view')->get('/invoices/by-client', [InvoiceController::class, 'byClient']);
+    Route::middleware('permission:invoices.view')->get('/invoices/{invoice}', [InvoiceController::class, 'show']);
+    Route::middleware('permission:invoices.create')->post('/invoices', [InvoiceController::class, 'store']);
+    Route::middleware('permission:invoices.update')->put('/invoices/{invoice}', [InvoiceController::class, 'update']);
+    Route::middleware('permission:invoices.update')->patch('/invoices/{invoice}/mark-paid', [InvoiceController::class, 'markPaid']);
+    Route::middleware('permission:invoices.delete')->delete('/invoices/{invoice}', [InvoiceController::class, 'destroy']);
 
      // Dashboard stats
     Route::get('/dashboard/stats', [DashboardController::class, 'stats']);
