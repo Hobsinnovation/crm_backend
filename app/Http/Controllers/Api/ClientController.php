@@ -52,6 +52,7 @@ class ClientController extends Controller
         $validated['assigned_to'] = $request->user()->id;
 
         $client = Client::create($validated);
+        \App\Models\ActivityLog::record('created', $client);
 
         return response()->json([
             'success' => true,
@@ -87,7 +88,9 @@ class ClientController extends Controller
             'credit_balance' => 'nullable|numeric',
         ]);
 
+        $oldValues = $client->only(array_keys($validated));
         $client->update($validated);
+        \App\Models\ActivityLog::record('updated', $client, $oldValues, $validated);
 
         return response()->json([
             'success' => true,
@@ -98,7 +101,8 @@ class ClientController extends Controller
 
     public function destroy(Client $client)
     {
-        $client->delete();
+     \App\Models\ActivityLog::record('deleted', $client);    
+    $client->delete();
 
         return response()->json([
             'success' => true,

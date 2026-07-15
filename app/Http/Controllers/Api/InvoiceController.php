@@ -98,6 +98,7 @@ class InvoiceController extends Controller
         $validated['amount_paid'] = 0;
 
         $invoice = Invoice::create($validated);
+         \App\Models\ActivityLog::record('created', $invoice);
 
         return response()->json([
             'success' => true,
@@ -172,6 +173,7 @@ class InvoiceController extends Controller
             'amount_paid' => $invoice->total,
             'paid_at'     => now(),
         ]);
+        \App\Models\ActivityLog::record('paid', $invoice);
 
         // Invoice creator ko notification (agar khud paid nahi kiya)
         if ($invoice->created_by && $invoice->created_by != $request->user()->id) {
@@ -199,7 +201,7 @@ class InvoiceController extends Controller
                 'message' => 'Paid invoices cannot be deleted.',
             ], 422);
         }
-
+         \App\Models\ActivityLog::record('deleted', $invoice);
         $invoice->delete();
 
         return response()->json([

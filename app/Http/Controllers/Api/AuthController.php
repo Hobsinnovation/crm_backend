@@ -74,6 +74,14 @@ class AuthController extends Controller
         $user->tokens()->delete();
 
         $token = $user->createToken('auth_token')->plainTextToken;
+         \App\Models\ActivityLog::create([
+            'user_id'    => $user->id,
+            'action'     => 'login',
+            'model'      => 'User',
+            'model_id'   => $user->id,
+            'ip_address' => $request->ip(),
+            'user_agent' => substr((string) $request->userAgent(), 0, 255),
+        ]);
 
         return response()->json([
             'success' => true,
@@ -101,6 +109,7 @@ class AuthController extends Controller
      */
     public function logout(Request $request)
     {
+         \App\Models\ActivityLog::record('logout', $request->user());
         $request->user()->currentAccessToken()->delete();
 
         return response()->json([

@@ -51,6 +51,7 @@ class LeadController extends Controller
         $validated['assigned_to'] = $validated['assigned_to'] ?? $request->user()->id;
 
         $lead = Lead::create($validated);
+        \App\Models\ActivityLog::record('created', $lead);
 
         return response()->json([
             'success' => true,
@@ -100,6 +101,7 @@ class LeadController extends Controller
         ]);
 
         $lead->update(['assigned_to' => $validated['assigned_to']]);
+         \App\Models\ActivityLog::record('assigned', $lead);
 
         // Assigned user ko notification bhejein
         if ($validated['assigned_to'] != $request->user()->id) {
@@ -148,7 +150,7 @@ class LeadController extends Controller
             'converted_to_client_id' => $client->id,
             'conversion_date'        => now(),
         ]);
-
+          \App\Models\ActivityLog::record('converted', $lead);
         return response()->json([
             'success' => true,
             'message' => 'Lead converted to client successfully',
@@ -160,7 +162,8 @@ class LeadController extends Controller
     }
 
     public function destroy(Lead $lead)
-    {
+    { 
+        \App\Models\ActivityLog::record('deleted', $lead);
         $lead->delete();
 
         return response()->json([

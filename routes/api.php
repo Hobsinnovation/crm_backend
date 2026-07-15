@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\LeadController;
 use App\Http\Controllers\Api\DomainController;
 use App\Http\Controllers\Api\InvoiceController;
 use App\Http\Controllers\Api\NotificationController;
+use App\Http\Controllers\Api\ActivityLogController;
 
 // Public routes
 Route::post('/register', [AuthController::class, 'register']);
@@ -76,6 +77,10 @@ Route::post('/login', [AuthController::class, 'login']);
 
      // Dashboard stats
     Route::get('/dashboard/stats', [DashboardController::class, 'stats']);
+    
+    // Activity logs (audit trail — sirf users.view walon ke liye i.e. admins)
+    Route::middleware('permission:users.view')->get('/activity-logs', [ActivityLogController::class, 'index']);
+    Route::middleware('permission:users.view')->get('/activity-logs/filters', [ActivityLogController::class, 'filters']);
 
 
     });

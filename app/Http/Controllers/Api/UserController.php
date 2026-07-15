@@ -50,7 +50,7 @@ class UserController extends Controller
             'role'      => $role->name,
             'role_id'   => $role->id,
             'is_active' => true,
-        ]);
+        ]);\App\Models\ActivityLog::record('created', $user);
 
         return response()->json([
             'success' => true,
@@ -86,7 +86,9 @@ class UserController extends Controller
             $validated['role'] = $role->name;
         }
 
+        $oldValues = $user->only(array_keys($validated));
         $user->update($validated);
+        \App\Models\ActivityLog::record('updated', $user, $oldValues, $validated);
 
         return response()->json([
             'success' => true,
@@ -102,6 +104,7 @@ class UserController extends Controller
     {
         $user->update(['is_active' => ! $user->is_active]);
 
+        \App\Models\ActivityLog::record($user->is_active ? 'activated' : 'deactivated', $user);
         return response()->json([
             'success' => true,
             'message' => $user->is_active ? 'User activated' : 'User deactivated',
@@ -115,6 +118,7 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         $user->tokens()->delete();
+        \App\Models\ActivityLog::record('deleted', $user);
         $user->delete();
 
         return response()->json([
