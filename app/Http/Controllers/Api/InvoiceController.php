@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Client;
 use App\Models\Invoice;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 
 class InvoiceController extends Controller
@@ -40,7 +42,7 @@ class InvoiceController extends Controller
      */
     public function byClient()
     {
-        $clients = \App\Models\Client::withCount(['invoices'])
+        $clients = Client::withCount(['invoices'])
             ->with(['invoices' => function ($q) {
                 $q->select('id', 'client_id', 'total', 'amount_paid', 'status', 'due_date');
             }])
@@ -72,7 +74,6 @@ class InvoiceController extends Controller
             'data'    => $clients,
         ]);
     }
-
 
     public function store(Request $request)
     {
@@ -157,7 +158,7 @@ class InvoiceController extends Controller
     /**
      * Mark invoice as paid (full payment)
      */
-    public function markPaid(Invoice $invoice)
+    public function markPaid(Request $request, Invoice $invoice)
     {
         if ($invoice->status === 'paid') {
             return response()->json([
@@ -171,6 +172,17 @@ class InvoiceController extends Controller
             'amount_paid' => $invoice->total,
             'paid_at'     => now(),
         ]);
+
+        // Invoice creator ko notification (agar khud paid nahi kiya)
+        if ($invoice->created_by && $invoice->created_by != $request->user()->id) {
+            Notification::send(
+                $invoice->created_by,
+                'invoice_paid',
+                'Invoice Paid',
+                "Invoice {$invoice->invoice_number} (\${$invoice->total}) has been marked as paid.",
+                $invoice
+            );
+        }
 
         return response()->json([
             'success' => true,

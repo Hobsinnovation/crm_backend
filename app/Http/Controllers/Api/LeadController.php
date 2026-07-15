@@ -101,6 +101,17 @@ class LeadController extends Controller
 
         $lead->update(['assigned_to' => $validated['assigned_to']]);
 
+        // Assigned user ko notification bhejein
+        if ($validated['assigned_to'] != $request->user()->id) {
+            \App\Models\Notification::send(
+                $validated['assigned_to'],
+                'lead_assigned',
+                'New Lead Assigned',
+                "Lead \"{$lead->name}\" has been assigned to you by {$request->user()->name}.",
+                $lead
+            );
+        }
+
         return response()->json([
             'success' => true,
             'message' => 'Lead assigned successfully',
